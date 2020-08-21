@@ -15,6 +15,10 @@ namespace PacMan
             InitializeHero();
         }
 
+        public int Step { get; set; } = 1;
+        public int VerticalVelocity { get; set; } = 0;
+        public int HorisontalVelocity { get; set; } = 0;
+
         private void InitializeHero()
         {
             this.BackColor = Color.Yellow;
