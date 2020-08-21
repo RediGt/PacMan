@@ -15,7 +15,7 @@ namespace PacMan
             InitializeHero();
         }
 
-        public int Step { get; set; } = 1;
+        public int Step { get; set; } = 2;
         public int VerticalVelocity { get; set; } = 0;
         public int HorisontalVelocity { get; set; } = 0;
 

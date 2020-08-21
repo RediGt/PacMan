@@ -27,7 +27,6 @@ namespace PacMan
         {
             this.Size = new Size(500, 500);
             this.KeyDown += new KeyEventHandler(Game_KeyDown);
-            //Adding level
             this.Controls.Add(level);
             this.Controls.Add(hero);
             hero.BringToFront();
@@ -45,6 +44,7 @@ namespace PacMan
         {
             hero.Left += hero.HorisontalVelocity;
             hero.Top += hero.VerticalVelocity;
+            HeroBorderCollision();
         }
 
         private void Game_KeyDown(object sender, KeyEventArgs e)
@@ -52,13 +52,41 @@ namespace PacMan
             switch (e.KeyCode)
             {
                 case Keys.Right:
+                    hero.HorisontalVelocity = hero.Step;
+                    hero.VerticalVelocity = 0;
                     break;
                 case Keys.Down:
+                    hero.HorisontalVelocity = 0;
+                    hero.VerticalVelocity = hero.Step;
                     break;
                 case Keys.Left:
+                    hero.HorisontalVelocity = -hero.Step;
+                    hero.VerticalVelocity = 0;
                     break;
                 case Keys.Up:
+                    hero.HorisontalVelocity = 0;
+                    hero.VerticalVelocity = -hero.Step;
                     break;
+            }
+        }
+
+        private void HeroBorderCollision()
+        {
+            if (hero.Left > level.Left + level.Width)
+            {
+                hero.Left = level.Left - hero.Width;
+            }
+            if (hero.Left < level.Left - hero.Width)
+            {
+                hero.Left = level.Left + level.Width;
+            }
+            if (hero.Top > level.Top + level.Height)
+            {
+                hero.Top = level.Top - hero.Height;
+            }
+            if (hero.Top < level.Top - hero.Height)
+            {
+                hero.Top = level.Top + level.Height;
             }
         }
     }
