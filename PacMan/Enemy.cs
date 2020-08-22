@@ -29,6 +29,10 @@ namespace PacMan
             this.Tag = "Ghost";
         }
 
+        /// <summary>
+        /// Sets movement direction of the enemy
+        /// </summary>
+        /// <param name="directionCode">1-East, 2-South, 3-West, 4-North</param>
         public void SetRandomDirection()
         {
             int directionCode = rand.Next(1, 5);
