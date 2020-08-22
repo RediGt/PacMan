@@ -12,9 +12,13 @@ namespace PacMan
 {
     public partial class Game : Form
     {
+        private int initialEnemyCount = 4;
+
+        private Random rand = new Random();
         private readonly Level level = new Level();
         private Hero hero = new Hero();
         private Timer mainTimer = null;
+        private List<Enemy> enemies = new List<Enemy>();
 
         public Game()
         {
@@ -27,7 +31,18 @@ namespace PacMan
         {
             this.Size = new Size(500, 500);
             this.KeyDown += new KeyEventHandler(Game_KeyDown);
+            AddLevel();
+            AddHero();
+            AddEnemy();
+        }
+
+        private void AddLevel()
+        {
             this.Controls.Add(level);
+        }
+
+        private void AddHero()
+        {
             this.Controls.Add(hero);
             hero.BringToFront();
         }
@@ -42,9 +57,24 @@ namespace PacMan
 
         private void MainTimer_Tick(object sender, EventArgs e)
         {
+            MoveHero();
+            HeroBorderCollision();
+            MoveEnemies();
+        }
+
+        private void MoveHero()
+        {
             hero.Left += hero.HorisontalVelocity;
             hero.Top += hero.VerticalVelocity;
-            HeroBorderCollision();
+        }
+
+        private void MoveEnemies()
+        {
+            foreach (var enemy in enemies)
+            {
+                enemy.Left += enemy.HorisontalVelocity;
+                enemy.Top += enemy.VerticalVelocity;
+            }
         }
 
         private void Game_KeyDown(object sender, KeyEventArgs e)
@@ -87,6 +117,20 @@ namespace PacMan
             if (hero.Top < level.Top - hero.Height)
             {
                 hero.Top = level.Top + level.Height;
+            }
+        }
+
+        private void AddEnemy()
+        {
+            Enemy enemy;
+
+            for (int i = 0; i < initialEnemyCount; i++)
+            {
+                enemy = new Enemy();
+                enemy.Location = new Point(rand.Next(100, 500), rand.Next(100, 500));
+                enemies.Add(enemy);
+                this.Controls.Add(enemy);
+                enemy.BringToFront();
             }
         }
     }
