@@ -15,7 +15,7 @@ namespace PacMan
         public Enemy()
         {
             InitializeEnemy();
-            SetDirection(rand.Next(1, 5));
+            //SetDirection(rand.Next(1, 5));
         }
 
         public int Step { get; set; } = 1;

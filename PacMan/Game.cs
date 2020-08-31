@@ -128,6 +128,7 @@ namespace PacMan
             {
                 enemy = new Enemy();
                 enemy.Location = new Point(rand.Next(100, 500), rand.Next(100, 500));
+                enemy.SetDirection(rand.Next(1, 5));
                 enemies.Add(enemy);
                 this.Controls.Add(enemy);
                 enemy.BringToFront();
