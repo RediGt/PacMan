@@ -60,6 +60,7 @@ namespace PacMan
             MoveHero();
             HeroBorderCollision();
             MoveEnemies();
+            EnemyBorderCollision();
         }
 
         private void MoveHero()
@@ -98,6 +99,7 @@ namespace PacMan
                     hero.VerticalVelocity = -hero.Step;
                     break;
             }
+            SetRandomEnemyDirection();
         }
 
         private void HeroBorderCollision()
@@ -133,6 +135,46 @@ namespace PacMan
                 this.Controls.Add(enemy);
                 enemy.BringToFront();
             }
+        }
+
+        private void EnemyBorderCollision()
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.Left > level.Width - enemy.Width)
+                {
+                    enemy.HorisontalVelocity = -enemy.Step;
+                    enemy.VerticalVelocity = 0;
+                }
+                if (enemy.Left < level.Left)
+                {
+                    enemy.HorisontalVelocity = enemy.Step;
+                    enemy.VerticalVelocity = 0;
+                }
+                if (enemy.Top > level.Height - enemy.Height)
+                {
+                    enemy.HorisontalVelocity = 0;
+                    enemy.VerticalVelocity = -enemy.Step;
+                }
+                if (enemy.Top < level.Top)
+                {
+                    enemy.HorisontalVelocity = 0;
+                    enemy.VerticalVelocity = enemy.Step;
+                }
+            }
+        }
+
+        private void SetRandomEnemyDirection()
+        {
+            foreach (var enemy in enemies)
+            {
+                enemy.SetDirection(rand.Next(1, 5));
+            }
+        }
+
+        private void GameOver()
+        {
+
         }
     }
 }

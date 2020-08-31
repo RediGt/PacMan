@@ -22,7 +22,7 @@ namespace PacMan
         private void InitializeHero()
         {
             this.BackColor = Color.Yellow;
-            this.Size = new Size(60, 60);
+            this.Size = new Size(30, 30);
             this.Location = new Point(200, 200);
             this.Name = "Pacman";
         }

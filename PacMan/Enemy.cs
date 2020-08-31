@@ -25,7 +25,7 @@ namespace PacMan
         private void InitializeEnemy()
         {
             this.BackColor = Color.Red;
-            this.Size = new Size(40, 40);
+            this.Size = new Size(20, 20);
             this.Tag = "Ghost";
         }
 
