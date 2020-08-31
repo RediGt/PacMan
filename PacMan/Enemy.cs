@@ -15,7 +15,7 @@ namespace PacMan
         public Enemy()
         {
             InitializeEnemy();
-            SetRandomDirection();
+            SetDirection(rand.Next(1, 5));
         }
 
         public int Step { get; set; } = 1;
@@ -33,9 +33,8 @@ namespace PacMan
         /// Sets movement direction of the enemy
         /// </summary>
         /// <param name="directionCode">1-East, 2-South, 3-West, 4-North</param>
-        public void SetRandomDirection()
+        public void SetDirection(int directionCode)
         {
-            int directionCode = rand.Next(1, 5);
             switch (directionCode)
             {
                 case 1:
