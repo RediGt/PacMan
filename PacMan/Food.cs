@@ -22,13 +22,17 @@ namespace PacMan
             this.Size = new Size(20, 20);
             this.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Name = "Food";
-            this.SetType(1);
+            this.SetFoodType(1);
         }
 
-        public void SetType(int type)
+        public void SetFoodType(int type)
         {
             this.Type = type;
             this.Image = (Image)Properties.Resources.ResourceManager.GetObject("food_" + type.ToString());
+        }
+        public int GetFoodType()
+        {
+            return this.Type;
         }
     }
 }

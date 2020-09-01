@@ -13,6 +13,7 @@ namespace PacMan
     public partial class Game : Form
     {
         private int initialEnemyCount = 1;
+        private int score = 0;
 
         private Random rand = new Random();
         private readonly Level level = new Level();
@@ -185,6 +186,14 @@ namespace PacMan
         {          
             if (hero.Bounds.IntersectsWith(food.Bounds))
             {
+                //hero.Step++;
+                score += 100;
+                lblScore.Text = "Score : " + score.ToString();
+                AnimateScore(200, food.Left, food.Top);
+
+                if (food.GetFoodType() == 4)
+                    hero.PredatorMode = true;
+
                 RespawnFood();
             }
         }
@@ -192,6 +201,15 @@ namespace PacMan
         private void RespawnFood()
         {
             food.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
+            food.SetFoodType(rand.Next(1, 5));
+        }
+
+        private void AnimateScore(int score, int locationX, int locationY)
+        {
+            Score scoreImage = new Score(score);
+            this.Controls.Add(scoreImage);
+            scoreImage.Parent = level;
+            scoreImage.Location = new Point(locationX, locationY);
         }
 
 
@@ -206,6 +224,8 @@ namespace PacMan
         private void GameOver()
         {
             mainTimer.Stop();
+            hero.StopMove();
+            enemySpawnTimer.Stop();
             lblGameOver.Parent = level;
             lblGameOver.BackColor = Color.Transparent;
             lblGameOver.Visible = true;
@@ -213,10 +233,24 @@ namespace PacMan
 
         private void HeroEnemyCollision()
         {
-            foreach (var enemy in enemies)
+            Enemy enemy;
+            //for (int enemyCounter = enemies.Count; enemyCounter > 0; enemyCounter
+            for (int enemyCounter = 0; enemyCounter < enemies.Count; enemyCounter++)
             {
+                enemy = enemies[enemyCounter];
                 if (enemy.Bounds.IntersectsWith(hero.Bounds))
-                    GameOver();
+                {
+                    if (hero.PredatorMode)
+                    {
+                        AnimateScore(400, enemy.Left, enemy.Top);
+                        enemies.RemoveAt(enemyCounter); //Is a problem with listing all enemies
+                        enemy.Dispose();
+                        score += 400;
+                        lblScore.Text = "Score : " + score.ToString();
+                    }
+                    else
+                        GameOver();
+                }
             }
         }
 

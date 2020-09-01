@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblGameOver = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblGameOver
@@ -41,11 +42,22 @@
             this.lblGameOver.TabIndex = 0;
             this.lblGameOver.Text = "GAME OVER";
             // 
+            // lblScore
+            // 
+            this.lblScore.AutoSize = true;
+            this.lblScore.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScore.Location = new System.Drawing.Point(16, 420);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(91, 26);
+            this.lblScore.TabIndex = 1;
+            this.lblScore.Text = "Score : 0";
+            // 
             // Game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblScore);
             this.Controls.Add(this.lblGameOver);
             this.Name = "Game";
             this.Text = "Form1";
@@ -57,6 +69,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblGameOver;
+        private System.Windows.Forms.Label lblScore;
     }
 }
 

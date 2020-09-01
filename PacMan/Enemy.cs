@@ -85,5 +85,10 @@ namespace PacMan
             if (frameCounter > 2)
                 frameCounter = 1;
         }
+
+        public void StopEnemyAnimation()
+        {
+            animationTimer.Stop();
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace PacMan
     class Hero : PictureBox
     {
         private Timer animationTimer = null;
+        private Timer meltTimer = null;
+        private Timer predatorModeTimer = null;
         private int frameCounter = 1;
 
         public Hero()
@@ -23,6 +25,7 @@ namespace PacMan
         public int VerticalVelocity { get; set; } = 0;
         public int HorisontalVelocity { get; set; } = 0;
         public string Direction { get; set; } = "right";
+        public bool PredatorMode { get; set; } = false;
 
         private void InitializeHero()
         {
@@ -42,10 +45,10 @@ namespace PacMan
 
         private void AnimationTimer_Tick(object sender, EventArgs e)
         {
-            Animate();
+            MoveAnimate();
         }
 
-        private void Animate()
+        private void MoveAnimate()
         {
             string imageName = "pacman_" + this.Direction + "_" + frameCounter.ToString();
             this.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
@@ -55,6 +58,37 @@ namespace PacMan
                 frameCounter = 1;
         }
 
+        public void StopMove()
+        {
+            animationTimer.Stop();
+            frameCounter = 0;
+            InitializeMeltTimer();
+        }
 
+
+        private void InitializeMeltTimer()
+        {
+            meltTimer = new Timer();
+            meltTimer.Interval = 100;
+            meltTimer.Tick += new EventHandler(MeltTimer_Tick);
+            meltTimer.Start();
+        }
+
+        private void MeltTimer_Tick(object sender, EventArgs e)
+        {
+            MeltAnimate();
+        }
+
+        private void MeltAnimate()
+        {
+            string imageName = "pacman_melt_" + frameCounter.ToString();
+            this.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
+            this.SizeMode = PictureBoxSizeMode.StretchImage;
+            frameCounter++;
+            if (frameCounter > 14)
+            {
+                meltTimer.Stop();
+            }
+        }
     }
 }
