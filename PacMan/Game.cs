@@ -17,6 +17,7 @@ namespace PacMan
         private Random rand = new Random();
         private readonly Level level = new Level();
         private Hero hero = new Hero();
+        private Food food = new Food();
         private Timer mainTimer = null;
         private Timer enemySpawnTimer = null;
         private List<Enemy> enemies = new List<Enemy>();
@@ -37,6 +38,7 @@ namespace PacMan
             AddLevel();
             AddHero();
             AddEnemy(initialEnemyCount);
+            AddFood();
         }
 
         private void AddLevel()
@@ -49,6 +51,14 @@ namespace PacMan
             this.Controls.Add(hero);
             hero.Parent = level;
             hero.BringToFront();
+        }
+
+        private void AddFood()
+        {
+            this.Controls.Add(food);
+            food.Parent = level;
+            food.BringToFront();
+            food.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
         }
 
         private void InitializeMainTimer()
@@ -66,6 +76,7 @@ namespace PacMan
             MoveEnemies();
             EnemyBorderCollision();
             HeroEnemyCollision();
+            HeroFoodCollision();
         }
 
         private void MoveHero()
@@ -169,6 +180,20 @@ namespace PacMan
                 }
             }
         }
+
+        private void HeroFoodCollision()
+        {          
+            if (hero.Bounds.IntersectsWith(food.Bounds))
+            {
+                RespawnFood();
+            }
+        }
+
+        private void RespawnFood()
+        {
+            food.Location = new Point(rand.Next(100, 400), rand.Next(100, 400));
+        }
+
 
         private void SetRandomEnemyDirection()
         {
