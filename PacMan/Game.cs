@@ -12,12 +12,13 @@ namespace PacMan
 {
     public partial class Game : Form
     {
-        private int initialEnemyCount = 4;
+        private int initialEnemyCount = 1;
 
         private Random rand = new Random();
         private readonly Level level = new Level();
         private Hero hero = new Hero();
         private Timer mainTimer = null;
+        private Timer enemySpawnTimer = null;
         private List<Enemy> enemies = new List<Enemy>();
 
         public Game()
@@ -26,6 +27,7 @@ namespace PacMan
             InitializeGame();
             InitializeMainTimer();
             lblGameOver.Visible = false;
+            InitializeEnemySpawnTimer();
         }
 
         private void InitializeGame()
@@ -34,7 +36,7 @@ namespace PacMan
             this.KeyDown += new KeyEventHandler(Game_KeyDown);
             AddLevel();
             AddHero();
-            AddEnemy();
+            AddEnemy(initialEnemyCount);
         }
 
         private void AddLevel()
@@ -88,18 +90,22 @@ namespace PacMan
                 case Keys.Right:
                     hero.HorisontalVelocity = hero.Step;
                     hero.VerticalVelocity = 0;
+                    hero.Direction = "right";
                     break;
                 case Keys.Down:
                     hero.HorisontalVelocity = 0;
                     hero.VerticalVelocity = hero.Step;
+                    hero.Direction = "down";
                     break;
                 case Keys.Left:
                     hero.HorisontalVelocity = -hero.Step;
                     hero.VerticalVelocity = 0;
+                    hero.Direction = "left";
                     break;
                 case Keys.Up:
                     hero.HorisontalVelocity = 0;
                     hero.VerticalVelocity = -hero.Step;
+                    hero.Direction = "up";
                     break;
             }
             SetRandomEnemyDirection();
@@ -125,11 +131,11 @@ namespace PacMan
             }
         }
 
-        private void AddEnemy()
+        private void AddEnemy(int enemyCount)
         {
             Enemy enemy;
 
-            for (int i = 0; i < initialEnemyCount; i++)
+            for (int i = 0; i < enemyCount; i++)
             {
                 enemy = new Enemy();
                 enemy.Location = new Point(rand.Next(100, 500), rand.Next(100, 500));
@@ -147,23 +153,19 @@ namespace PacMan
             {
                 if (enemy.Left > level.Width - enemy.Width)
                 {
-                    enemy.HorisontalVelocity = -enemy.Step;
-                    enemy.VerticalVelocity = 0;
+                    enemy.SetDirection(2);                  
                 }
                 if (enemy.Left < level.Left)
                 {
-                    enemy.HorisontalVelocity = enemy.Step;
-                    enemy.VerticalVelocity = 0;
+                    enemy.SetDirection(3);                    
                 }
                 if (enemy.Top > level.Height - enemy.Height)
                 {
-                    enemy.HorisontalVelocity = 0;
-                    enemy.VerticalVelocity = -enemy.Step;
+                    enemy.SetDirection(4);
                 }
                 if (enemy.Top < level.Top)
                 {
-                    enemy.HorisontalVelocity = 0;
-                    enemy.VerticalVelocity = enemy.Step;
+                    enemy.SetDirection(1);
                 }
             }
         }
@@ -191,6 +193,19 @@ namespace PacMan
                 if (enemy.Bounds.IntersectsWith(hero.Bounds))
                     GameOver();
             }
+        }
+
+        private void InitializeEnemySpawnTimer()
+        {
+            enemySpawnTimer = new Timer();
+            enemySpawnTimer.Tick += new EventHandler(EnemySpawnTimer_Tick);
+            enemySpawnTimer.Interval = 3000;
+            enemySpawnTimer.Start();
+        }
+
+        private void EnemySpawnTimer_Tick(object sender, EventArgs e)
+        {
+            AddEnemy(1);
         }
     }
 }

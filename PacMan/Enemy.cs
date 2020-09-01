@@ -11,20 +11,23 @@ namespace PacMan
     class Enemy : PictureBox
     {
         private Random rand = new Random();
+        private Timer animationTimer = null;
+        private int frameCounter = 1;
 
         public Enemy()
         {
             InitializeEnemy();
-            //SetDirection(rand.Next(1, 5));
+            InitializeAnimationTimer();
         }
 
         public int Step { get; set; } = 1;
         public int VerticalVelocity { get; set; } = 0;
         public int HorisontalVelocity { get; set; } = 0;
+        public string Direction { get; set; } = "right";
 
         private void InitializeEnemy()
         {
-            this.BackColor = Color.Red;
+            this.BackColor = Color.Transparent;
             this.Size = new Size(20, 20);
             this.Tag = "Ghost";
         }
@@ -40,20 +43,47 @@ namespace PacMan
                 case 1:
                     HorisontalVelocity = Step;
                     VerticalVelocity = 0;
+                    this.Direction = "right";
                     break;
                 case 2:
                     HorisontalVelocity = 0;
                     VerticalVelocity = Step;
+                    this.Direction = "down";
                     break;
                 case 3:
                     HorisontalVelocity = -Step;
                     VerticalVelocity = 0;
+                    this.Direction = "left";
                     break;
                 case 4:
                     HorisontalVelocity = 0;
                     VerticalVelocity = -Step;
+                    this.Direction = "up";
                     break;
             }
+        }
+
+        private void InitializeAnimationTimer()
+        {
+            animationTimer = new Timer();
+            animationTimer.Interval = 200;
+            animationTimer.Tick += new EventHandler(AnimationTimer_Tick);
+            animationTimer.Start();
+        }
+
+        private void AnimationTimer_Tick(object sender, EventArgs e)
+        {
+            Animate();
+        }
+
+        private void Animate()
+        {
+            string imageName = "enemy_" + this.Direction + "_" + frameCounter.ToString();
+            this.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
+            this.SizeMode = PictureBoxSizeMode.StretchImage;
+            frameCounter++;
+            if (frameCounter > 2)
+                frameCounter = 1;
         }
     }
 }
