@@ -192,7 +192,7 @@ namespace PacMan
                 AnimateScore(200, food.Left, food.Top);
 
                 if (food.GetFoodType() == 4)
-                    hero.PredatorMode = true;
+                    hero.PredatorModeOn();
 
                 RespawnFood();
             }

@@ -90,5 +90,26 @@ namespace PacMan
                 meltTimer.Stop();
             }
         }
+
+        private void InitializePredatorModeTimer()
+        {
+            predatorModeTimer = new Timer();
+            predatorModeTimer.Interval = 5000;
+            predatorModeTimer.Tick += new EventHandler(PredatorModeTimer_Tick);
+            predatorModeTimer.Start();
+        }
+
+        private void PredatorModeTimer_Tick(object sender, EventArgs e)
+        {
+            predatorModeTimer.Stop();
+            predatorModeTimer.Dispose();
+            this.PredatorMode = false;
+        }
+
+        public void PredatorModeOn()
+        {
+            this.PredatorMode = true;
+            InitializePredatorModeTimer();
+        }
     }
 }
