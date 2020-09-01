@@ -19,12 +19,15 @@ namespace PacMan
         private Hero hero = new Hero();
         private Timer mainTimer = null;
         private List<Enemy> enemies = new List<Enemy>();
+        //Label gameOver = new Label();
 
         public Game()
         {
             InitializeComponent();
             InitializeGame();
             InitializeMainTimer();
+            lblGameOver.Visible = false;
+            //SetLabelGameOver();
         }
 
         private void InitializeGame()
@@ -61,6 +64,7 @@ namespace PacMan
             HeroBorderCollision();
             MoveEnemies();
             EnemyBorderCollision();
+            HeroEnemyCollision();
         }
 
         private void MoveHero()
@@ -119,6 +123,7 @@ namespace PacMan
             if (hero.Top < level.Top - hero.Height)
             {
                 hero.Top = level.Top + level.Height;
+                GameOver();
             }
         }
 
@@ -174,7 +179,29 @@ namespace PacMan
 
         private void GameOver()
         {
+            mainTimer.Stop();
+            lblGameOver.Visible = true;
+            //gameOver.Visible = true;
+            //gameOver.BringToFront();
+        }
 
+        /*private void SetLabelGameOver()
+        {
+            gameOver.Font = new Font("Book Antiqua", 36);
+            gameOver.Text = "GAME OVER";
+            gameOver.BackColor = Color.Black;
+            gameOver.Location = new Point(50, level.Height / 2);
+            gameOver.Visible = false;
+            this.Controls.Add(gameOver);
+        }*/
+
+        private void HeroEnemyCollision()
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.Bounds.IntersectsWith(hero.Bounds))
+                    GameOver();
+            }
         }
     }
 }
