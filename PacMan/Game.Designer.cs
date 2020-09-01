@@ -35,7 +35,7 @@
             // 
             this.lblGameOver.AutoSize = true;
             this.lblGameOver.Font = new System.Drawing.Font("Book Antiqua", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGameOver.Location = new System.Drawing.Point(41, 142);
+            this.lblGameOver.Location = new System.Drawing.Point(33, 151);
             this.lblGameOver.Name = "lblGameOver";
             this.lblGameOver.Size = new System.Drawing.Size(332, 57);
             this.lblGameOver.TabIndex = 0;
